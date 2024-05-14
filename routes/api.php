@@ -4,6 +4,9 @@ use App\Http\Controllers\ProgramsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoachsController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\SubscriptionsController;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -36,10 +39,17 @@ Route::middleware('auth:sanctum')->prefix('coach')->group(
 
         //delete program
         Route::delete('programs/{programID}', [ProgramsController::class, 'destroy']);
+
+        //payment routes
+        Route::post('payment/{sub_id}/{username}', [PaymentsController::class, 'request']);
+
+        Route::get('verify/{sub_id}/{username}', [PaymentsController::class, 'verify'])->name('verify');
     }
 
 );
 
-
+//show all coaches
 Route::get('/coaches', [CoachsController::class, 'index']);
 
+//store new subscription
+Route::post('subscriptions/', [SubscriptionsController::class, 'store']);

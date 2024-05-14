@@ -59,6 +59,11 @@ class CoachsController extends Controller
     public function login(Request $request)
     {
 
+        $this->validate($request,[
+            'usernameOrNumber'=>['required'],
+            'password'=>['required']
+        ]);
+
         $user = Coach::where('username', $request->usernameOrNumber)->orWhere('number', $request->usernameOrNumber)->first();
 
 
