@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Novin gym api
+  description: |-
+    this is Novin Gym api created by Abolfazl Hadipour
+
+  version: 1.0.11
+
+servers:
+  - url: http://localhost:8000/api/
+tags:
+  - name: coach
+    description: Operations about coach
+paths:
+  /coaches:
+    get:
+      tags:
+        - coach
+      summary: Get a list of coaches
+      description:  Get a list of coaches
+      operationId: getCoaches
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '422':
+          description: Validation exception
+
+  /coach/login:
+    post:
+      tags:
+        - coach
+      summary: Logs coach into the system
+      description: 'Logs coach into the system'
+      operationId: loginCoach
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                usernameOrNumber:
+                  oneOf:
+                    - type: string
+                    - type: integer
+                password:    # <!--- form field name
+                  type: string
+              required:
+                - usernameOrNumber
+                - password
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+  /coach/signup:
+    post:
+      tags:
+        - coach
+      summary: Sign up new user to the system
+      description: ''
+      operationId: signupCoach
+      requestBody:
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  username:
+                    type: string
+                  number:
+                    type: integer
+                  password:
+                    type: string
+                  password_confirmation:
+                    type: string
+                required:
+                  - name
+                  - username
+                  - number
+                  - password
+                  - password_confirmation
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          example: 1
+      xml:
+        name: user
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
