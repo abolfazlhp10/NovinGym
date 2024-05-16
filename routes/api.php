@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProgramsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,8 +49,24 @@ Route::middleware('auth:sanctum')->prefix('coach')->group(
 
 );
 
-//show all coaches
-Route::get('/coaches', [CoachsController::class, 'index']);
 
-//store new subscription
-Route::post('subscriptions/', [SubscriptionsController::class, 'store']);
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    //show all coaches
+    Route::get('/coaches', [CoachsController::class, 'index']);
+
+    //store new subscription
+    Route::post('subscriptions/', [SubscriptionsController::class, 'store']);
+
+
+    //show all categories
+    Route::get('categories/', [CategoriesController::class, 'index']);
+
+    //make new category
+    Route::post('categories/', [CategoriesController::class, 'store']);
+
+    //edit category
+    Route::put('categories/{id}', [CategoriesController::class, 'update'], 204);
+
+    //delete category
+    Route::delete('categories/{id}', [CategoriesController::class, 'destroy'], 204);
+});
