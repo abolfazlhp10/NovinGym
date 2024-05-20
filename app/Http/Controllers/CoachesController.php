@@ -7,8 +7,9 @@ use App\Models\Coach;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class CoachsController extends Controller
+class CoachesController extends Controller
 {
+
 
     public function index()
     {
@@ -59,9 +60,9 @@ class CoachsController extends Controller
     public function login(Request $request)
     {
 
-        $this->validate($request,[
-            'usernameOrNumber'=>['required'],
-            'password'=>['required']
+        $this->validate($request, [
+            'usernameOrNumber' => ['required'],
+            'password' => ['required']
         ]);
 
         $user = Coach::where('username', $request->usernameOrNumber)->orWhere('number', $request->usernameOrNumber)->first();

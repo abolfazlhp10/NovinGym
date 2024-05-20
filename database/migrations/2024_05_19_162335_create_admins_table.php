@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coaches', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('username')->unique();
-            $table->string('number')->unique();
-            $table->string('image')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->integer('remain_programs')->nullable();
             $table->string('password');
-            $table->enum('role',['coach'])->default('coach');
-            $table->rememberToken();
+            $table->enum('role', ['admin'])->default('admin');
             $table->timestamps();
         });
     }
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coaches');
+        Schema::dropIfExists('admins');
     }
 };

@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
+
+    public function index()
+    {
+        return Subscription::all();
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -19,7 +25,15 @@ class SubscriptionsController extends Controller
             'program_numbers' => $request->program_numbers
         ]);
 
-        return response()->json(['message'=>'subscription paln added successfully'],201);
+        return response()->json(['message' => 'subscription paln added successfully'], 201);
+    }
 
+    public function destroy($id)
+    {
+        $subscription = Subscription::findOrFail($id);
+        $subscription->delete();
+
+        return response()->json(['subscription deleted successfully']);
     }
 }
+
