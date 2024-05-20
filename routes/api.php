@@ -9,6 +9,7 @@ use App\Http\Controllers\CoachesController;
 use App\Http\Controllers\ExercisesController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\SubscriptionsController;
+use App\Http\Controllers\SuggestionsController;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -48,6 +49,9 @@ Route::middleware('auth:sanctum')->prefix('coach')->group(
         Route::post('payment/{sub_id}/{username}', [PaymentsController::class, 'request']);
 
         Route::get('verify/{sub_id}/{username}', [PaymentsController::class, 'verify'])->name('verify');
+
+        //send suggestions
+        Route::post('sendSuggestion', [SuggestionsController::class, 'store']);
     }
 
 );
@@ -106,6 +110,3 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function 
     //delete exercise
     Route::delete('exercises/{id}', [ExercisesController::class, 'destroy']);
 });
-
-
-//ToDo : add edit func for category
