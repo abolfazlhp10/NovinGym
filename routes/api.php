@@ -72,7 +72,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function 
     Route::delete('subscriptions/{id}', [SubscriptionsController::class, 'destroy']);
 
 
-    
+
     //show all categories
     Route::get('categories/', [CategoriesController::class, 'index']);
 
@@ -80,6 +80,10 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function 
     Route::post('categories/', [CategoriesController::class, 'store']);
 
     //edit category
+    Route::get('categories/{id}/edit', [CategoriesController::class, 'edit']);
+
+
+    //update category
     Route::put('categories/{id}', [CategoriesController::class, 'update'], 204);
 
     //delete category
@@ -102,7 +106,6 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function 
     //delete exercise
     Route::delete('exercises/{id}', [ExercisesController::class, 'destroy']);
 });
-
 
 
 //ToDo : add edit func for category

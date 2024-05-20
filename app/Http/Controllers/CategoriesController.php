@@ -27,6 +27,12 @@ class CategoriesController extends Controller
         return $category;
     }
 
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+        return $category;
+    }
+
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
